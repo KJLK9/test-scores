@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row mb-5">
+        <div class="col d-flex flex-column gap-3">
+            <h1>Calculate Test Result Data</h1>
+            {{ form_start(form, {attr: {class: 'd-flex flex-column gap-3'}}) }}
+            {{ form_row(form.file) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+    {% if stats is not empty and not stats.isEmpty %}
+        <div class="row">
+            <div class="col-12">
+                <h2>Results</h2>
+            </div>
+
+            {% if stats.students is not empty %}
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th colspan="2">Grades</th>
+                        </tr>
+                        <tr>
+                            <th>Student</th>
+                            <th>Grade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for student in stats.students %}
+                            <tr>
+                                <th>{{ student.id }}</th>
+                                <td>{{ student.grade|number_format(1) }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+            {% if stats.questions is not empty %}
+                <div class="col">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th colspan="3">Question Data</th>
+                        </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>P-Value</th>
+                            <th>Rit-Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for question in stats.questions %}
+                            <tr>
+                                <th>{{ question.id }}</th>
+                                <td>{{ question.getPValue }}</td>
+                                <td>{{ question.getRITValue }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
